@@ -3,7 +3,7 @@ services:
     kibana:
         links:
             - elasticsearch
-        image: khezen/kibana:5
+        image: didibaba/kibana
         environment:
             KIBANA_PWD: N0password
             ELASTICSEARCH_HOST: elasticsearch
@@ -17,7 +17,7 @@ services:
             - elk
         restart: always
     elasticsearch:
-        image: khezen/elasticsearch
+        image: didibaba/elasticsearch
         environment:
             ELASTIC_PWD: N0password
             KIBANA_PWD: N0password

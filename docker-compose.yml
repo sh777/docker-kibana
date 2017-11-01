@@ -1,0 +1,41 @@
+version: '2'
+services:
+    kibana:
+        links:
+            - elasticsearch
+        image: khezen/kibana:5
+        environment:
+            KIBANA_PWD: N0password
+            ELASTICSEARCH_HOST: elasticsearch
+            ELASTICSEARCH_PORT: 9200
+        volumes:
+            - kibana_config:/opt/kibana/config/
+            - es_config:/etc/elasticsearch/
+        ports:
+             - "5601:5601"
+        networks:
+            - elk
+        restart: always
+    elasticsearch:
+        image: khezen/elasticsearch
+        environment:
+            ELASTIC_PWD: N0password
+            KIBANA_PWD: N0password
+            HTTP_SSL: "false"
+        volumes:
+            - /mnt/esdata:/usr/share/elasticsearch/data
+            - es_config:/usr/share/elasticsearch/config
+        ports:
+             - "9200:9200"
+             - "9300:9300"
+        networks:
+            - elk
+        restart: always
+volumes:
+  es_config:
+    driver: local
+  kibana_config:
+    driver: local
+networks:
+  elk:
+    driver: bridge
